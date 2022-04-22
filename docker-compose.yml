@@ -1,0 +1,17 @@
+version: '3.2'
+
+services:
+
+  flink_transformer:
+    build: .
+    container_name: flink_transformer
+    hostname: flink_transformer
+    environment:
+      - BROKER_HOST=broker:29092
+      - BROKER_HOST_CLOUDERA=broker:29092
+      - MONGO_HOST=mongodb://mongo:27017
+
+networks: 
+  default: 
+    external: 
+      name: kafka_confluent_network
