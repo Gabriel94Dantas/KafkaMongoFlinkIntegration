@@ -1,5 +1,7 @@
 package org.example.models;
 
+import com.google.gson.JsonObject;
+
 /***
  * Class responsible to modeling the Event to Object mode
  * */
@@ -21,7 +23,7 @@ public class Event {
 
     private String dataContentType;
 
-    private String data;
+    private JsonObject data;
 
     public String getId() {
         return id;
@@ -87,11 +89,11 @@ public class Event {
         this.dataContentType = dataContentType;
     }
 
-    public String getData() {
+    public JsonObject getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(JsonObject data) {
         this.data = data;
     }
 }
