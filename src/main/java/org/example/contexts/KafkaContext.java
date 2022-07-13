@@ -6,6 +6,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * Class responsible to connect to the source kafka and sink kafka
@@ -33,8 +34,9 @@ public class KafkaContext {
     public KafkaSource<String> createKafkaPlataformConnection(){
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
                 .setBootstrapServers(getKafkaPlataformServer())
-                .setTopics("br.com.example.correctTopic")
+                .setTopicPattern(Pattern.compile("br.com.example.*"))
                 .setValueOnlyDeserializer(new SimpleStringSchema())
+                .setProperty("partition.discovery.interval.ms", "10000")
                 .build();
 
         return kafkaSource;

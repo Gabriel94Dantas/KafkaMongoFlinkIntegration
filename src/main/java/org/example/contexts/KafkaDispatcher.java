@@ -27,7 +27,7 @@ public class KafkaDispatcher implements Closeable {
     }
 
     public Future<RecordMetadata> sendAsync(Event payload) {
-        ProducerRecord record = new ProducerRecord<>(payload.getType()+".cloudera",
+        ProducerRecord record = new ProducerRecord<>("cloudera." + payload.getType(),
                 payload.getId(),
                 EventConverter.eventToJson(payload));
         Callback callback = (data, ex) -> {
