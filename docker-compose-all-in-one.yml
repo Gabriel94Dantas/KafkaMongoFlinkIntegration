@@ -53,7 +53,7 @@ services:
     hostname: api-eventos
     container_name: api-eventos
     ports:
-      - 7777:7777
+      - 80:80
     environment:
       - BROKER_HOST=broker:29092
   mongo:
@@ -63,8 +63,18 @@ services:
     ports:
       - 27017:27017
 
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbEvent
+    ports:
+      - "3306:3306"
+
   flink_transformer:
-    image: gabriel94dantas/flink-runner-poc-kappa:1.0
+    image: gabriel94dantas/flink-runner-poc-kappa:1.2
     depends_on:
       - broker
       - mongo
@@ -78,7 +88,18 @@ services:
       - BROKER_HOST_CLOUDERA=broker:29092
       - MONGO_HOST=mongodb://mongo:27017
 
-networks: 
-  default: 
-    external: 
+  apl-api-email-mocked:
+    image: gabriel94dantas/poc-saga-email-mocked:1.0
+    depends_on:
+      - broker
+    hostname: apl-api-email-mocked
+    container_name: apl-api-email-mocked
+    ports:
+      - 88:88
+    environment:
+      - BROKER_HOST=broker:29092
+
+networks:
+  default:
+    external:
       name: kafka_confluent_network
